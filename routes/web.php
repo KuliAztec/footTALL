@@ -9,10 +9,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/chart', [ChartController::class, 'index']);
-Route::post('/chart', [ChartController::class, 'index']);
-
 Route::get('/barchart', [BarChartController::class, 'index']);
 Route::get('/barchart/data', [BarChartController::class, 'getData']);
 
 Route::get('/playerstats', [PlayerStats::class, 'index']);
+
+Route::get('/chart', [ChartController::class, 'index']);

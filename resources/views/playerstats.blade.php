@@ -7,14 +7,89 @@
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
     <script>
         $(document).ready(function() {
-            $('#statsTable').DataTable();
+            var table = $('#statsTable').DataTable({
+                initComplete: function () {
+                    this.api().columns().every(function (index) {
+                        if (index > 1) {
+                            var column = this;
+                            var minInput = $('<input type="number" placeholder="Min" style="width: 50px; margin-right: 5px;">')
+                                .appendTo($(column.footer()).empty())
+                                .on('change', function () {
+                                    column.draw();
+                                });
+                            var maxInput = $('<input type="number" placeholder="Max" style="width: 50px;">')
+                                .appendTo($(column.footer()))
+                                .on('change', function () {
+                                    column.draw();
+                                });
+
+                            $.fn.dataTable.ext.search.push(
+                                function(settings, data, dataIndex) {
+                                    var min = parseFloat(minInput.val(), 10);
+                                    var max = parseFloat(maxInput.val(), 10);
+                                    var value = parseFloat(data[column.index()], 10) || 0;
+
+                                    if ((isNaN(min) && isNaN(max)) ||
+                                        (isNaN(min) && value <= max) ||
+                                        (min <= value && isNaN(max)) ||
+                                        (min <= value && value <= max)) {
+                                        return true;
+                                    }
+                                    return false;
+                                }
+                            );
+                        }
+                    });
+                }
+            });
+
+            $('#resetFilters').on('click', function() {
+                $('input[type="number"]').val('');
+                table.draw();
+            });
         });
     </script>
 </head>
 <body>
     <h1>Player Stats</h1>
+    <a href="/">Go to Home</a>
+    <button id="resetFilters">Reset Filters</button>
     <table id="statsTable" class="display">
         <thead>
+            <tr>
+                <th>ID</th>
+                <th>Player Name</th>
+                <th>Apps</th>
+                <th>Sub</th>
+                <th>Goals</th>  
+                <th>Assists</th>
+                <th>POM</th>
+                <th>Avg Rating</th>
+                <th>Mins</th>
+                <th>NP XG per 90</th>
+                <th>Conv %</th>
+                <th>Shots</th>
+                <th>XG per Shot</th>
+                <th>Shots per 90</th>
+                <th>Goals per 90</th>
+                <th>XG OP</th>
+                <th>OP KP per 90</th>
+                <th>Ch C per 90</th>
+                <th>PR Passes per 90</th>
+                <th>XA per 90</th>
+                <th>OP CRS C per 90</th>
+                <th>Pass %</th>
+                <th>TGLS per 90</th>
+                <th>Drb per 90</th>
+                <th>HDR %</th>
+                <th>Int per 90</th>
+                <th>Blk per 90</th>
+                <th>TCON per 90</th>
+                <th>Pres C per 90</th>
+                <th>GL MST</th>
+            </tr>
+        </thead>
+        <tfoot>
             <tr>
                 <th>ID</th>
                 <th>Player Name</th>
@@ -47,7 +122,7 @@
                 <th>Pres C per 90</th>
                 <th>GL MST</th>
             </tr>
-        </thead>
+        </tfoot>
         <tbody>
             @foreach ($stats as $stat)
             <tr>
