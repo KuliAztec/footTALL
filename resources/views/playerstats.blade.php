@@ -63,7 +63,6 @@
                 <th>Sub</th>
                 <th>Goals</th>  
                 <th>Assists</th>
-                <th>POM</th>
                 <th>Avg Rating</th>
                 <th>Mins</th>
                 <th>NP XG per 90</th>
@@ -87,6 +86,27 @@
                 <th>TCON per 90</th>
                 <th>Pres C per 90</th>
                 <th>GL MST</th>
+                <th>Gwin</th>
+                <th>Shots Outside Box per 90</th>
+                <th>XG</th>
+                <th>NP XG</th>
+                <th>Pens</th>
+                <th>PS C per 90</th>
+                <th>Sprints per 90</th>
+                <th>FA</th>
+                <th>TCK per 90</th>
+                <th>TCK R</th>
+                <th>HDRS W per 90</th>
+                <th>CLR per 90</th>
+                <th>Poss Won per 90</th>
+                <th>Poss Lost per 90</th>
+                <th>Yel</th>
+                <th>Red</th>
+                <th>XGP per 90</th>
+                <th>SV %</th>
+                <th>Con per 90</th>
+                <th>Cln per 90</th>
+                <th>Wage</th>
             </tr>
         </thead>
         <tfoot>
@@ -97,7 +117,6 @@
                 <th>Sub</th>
                 <th>Goals</th>
                 <th>Assists</th>
-                <th>POM</th>
                 <th>Avg Rating</th>
                 <th>Mins</th>
                 <th>NP XG per 90</th>
@@ -121,6 +140,27 @@
                 <th>TCON per 90</th>
                 <th>Pres C per 90</th>
                 <th>GL MST</th>
+                <th>Gwin</th>
+                <th>Shots Outside Box per 90</th>
+                <th>XG</th>
+                <th>NP XG</th>
+                <th>Pens</th>
+                <th>PS C per 90</th>
+                <th>Sprints per 90</th>
+                <th>FA</th>
+                <th>TCK per 90</th>
+                <th>TCK R</th>
+                <th>HDRS W per 90</th>
+                <th>CLR per 90</th>
+                <th>Poss Won per 90</th>
+                <th>Poss Lost per 90</th>
+                <th>Yel</th>
+                <th>Red</th>
+                <th>XGP per 90</th>
+                <th>SV %</th>
+                <th>Con per 90</th>
+                <th>Cln per 90</th>
+                <th>Wage</th>
             </tr>
         </tfoot>
         <tbody>
@@ -132,7 +172,6 @@
                 <td>{{ $stat->sub }}</td>
                 <td>{{ $stat->gls }}</td>
                 <td>{{ $stat->ast }}</td>
-                <td>{{ $stat->pom }}</td>
                 <td>{{ $stat->av_rat }}</td>
                 <td>{{ $stat->mins }}</td>
                 <td>{{ $stat->np_xg_per_90 }}</td>
@@ -156,6 +195,27 @@
                 <td>{{ $stat->tcon_per_90 }}</td>
                 <td>{{ $stat->pres_c_per_90 }}</td>
                 <td>{{ $stat->gl_mst }}</td>
+                <td>{{ $stat->gwin }}</td>
+                <td>{{ $stat->shots_outside_box_per_90 }}</td>
+                <td>{{ $stat->xg }}</td>
+                <td>{{ $stat->np_xg }}</td>
+                <td>{{ $stat->pens }}</td>
+                <td>{{ $stat->ps_c_per_90 }}</td>
+                <td>{{ $stat->sprints_per_90 }}</td>
+                <td>{{ $stat->fa }}</td>
+                <td>{{ $stat->tck_per_90 }}</td>
+                <td>{{ $stat->tck_r }}</td>
+                <td>{{ $stat->hdrs_w_per_90 }}</td>
+                <td>{{ $stat->clr_per_90 }}</td>
+                <td>{{ $stat->poss_won_per_90 }}</td>
+                <td>{{ $stat->poss_lost_per_90 }}</td>
+                <td>{{ $stat->yel }}</td>
+                <td>{{ $stat->red }}</td>
+                <td>{{ $stat->xgp_per_90 }}</td>
+                <td>{{ $stat->sv_perc }}</td>
+                <td>{{ $stat->con_per_90 }}</td>
+                <td>{{ $stat->cln_per_90 }}</td>
+                <td>{{ $stat->wage }}</td>
             </tr>
             @endforeach
         </tbody>

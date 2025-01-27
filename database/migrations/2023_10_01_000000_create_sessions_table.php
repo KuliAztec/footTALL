@@ -13,7 +13,11 @@ class CreateSessionsTable extends Migration
                 $table->id();
                 $table->string('session_id')->unique();
                 $table->text('data');
-                $table->timestamp('last_activity');
+                $table->text('payload')->nullable(); // Allow null values
+                $table->unsignedBigInteger('user_id')->nullable(); // Added column
+                $table->string('ip_address', 45)->nullable(); // Added column
+                $table->text('user_agent')->nullable(); // Added column
+                $table->timestamp('last_activity')->nullable()->useCurrent(); // Use timestamp instead
                 $table->timestamps();
             });
         }

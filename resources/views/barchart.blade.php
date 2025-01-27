@@ -5,7 +5,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div style="width: 75%;">        
+    
+    <div style="width: 100%;">        
+        <a href="/">Go Back</a>
+        <br>
         <dropdown>
             <select id="player1">
                 @foreach($players as $player)
@@ -20,7 +23,6 @@
             <button onclick="changePlayers()">Change Players</button>
         </dropdown>
         <canvas id="myBarChart"></canvas>
-        <a href="/">Go Back</a>
     </div>
 
     <script>
