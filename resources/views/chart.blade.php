@@ -5,67 +5,84 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         .chart-container {
-            width: 400px;
-            height: 400px;
-            display: inline-block;
-            margin: 10px;
+            position: relative;
+            width: 100%;
+            height: 500px;
+            margin: 30px auto;
+            padding: 25px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .container {
+            text-align: center;
+            padding-bottom: 50px;
+        }
+        .form-group {
+            margin: 20px 0;
+        }
+        .row {
+            clear: both;
+            margin-bottom: 40px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Player Comparison Charts</h1>
-        <a href="/">Go to Home</a>
-        <br>
-        <label for="playerSelect">Player:</label>
-        <select id="playerSelect" onchange="updatePlayerStats()">
-            @foreach($players as $player)
-                <option value="{{ $player->id }}" data-stats='@json($player->stats)'>{{ $player->name }}</option>
-            @endforeach
-        </select>
-        <br>
-        <label for="dummyDataSelect">Dummy Data Type:</label>
-        <select id="dummyDataSelect" onchange="updateDummyData()">
-            <option value="good">Good</option>
-            <option value="ok">Ok</option>
-            <option value="poor">Poor</option>
-        </select>
-        <br>
-        <button onclick="syncData()">Sync Data</button>
-        <br>
-        @for ($i = 0; $i < 12; $i++)
-            <div class="chart-container">
-                <h2>Chart {{ $i + 1 }}: {{ ['Goalkeeper', 'CB-Stopper', 'CB-BallPlaying', 'Fullback', 'Wingback', 'MF-Destroyer', 'MF-Creator', 'MF-Attacking', 'Wing-Provider', 'Wing-Striker', 'FW-Provider', 'FW-Striker'][$i] }}</h2>
-                <label for="chartType{{ $i }}">Chart Type:</label>
-                <select id="chartType{{ $i }}" onchange="updateChartType({{ $i }})">
-                    <option value="radar">Radar</option>
-                    <option value="bar">Bar</option>
-                    <option value="line">Line</option>
-                </select>
-                <canvas id="myChart{{ $i }}"></canvas>
-            </div>
-        @endfor
+        <h1 class="my-4">Player Comparison Charts</h1>
+        <a href="/" class="btn btn-primary mb-4">Go to Home</a>
+        <div class="form-group">
+            <label for="playerSelect">Player:</label>
+            <select id="playerSelect" class="form-control w-50 mx-auto" onchange="updatePlayerStats()">
+                @foreach($players as $player)
+                    <option value="{{ $player->id }}" data-stats='@json($player->stats)'>{{ $player->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="dummyDataSelect">Dummy Data Type:</label>
+            <select id="dummyDataSelect" class="form-control w-50 mx-auto" onchange="updateDummyData()">
+                <option value="good">Good</option>
+                <option value="ok">Ok</option>
+                <option value="poor">Poor</option>
+            </select>
+        </div>
+        <button class="btn btn-success mb-4" onclick="syncData()">Sync Data</button>
+        <div class="container">
+            @for ($i = 0; $i < 12; $i++)
+                @if ($i % 2 == 0)
+                    <div class="row justify-content-center">
+                @endif
+                <div class="col-lg-5 col-md-6 chart-container mx-4">
+                    <h2>Chart {{ $i + 1 }}: {{ ['Goalkeeper', 'CB-Stopper', 'CB-BallPlaying', 'Fullback', 'Wingback', 'MF-Destroyer', 'MF-Creator', 'MF-Attacking', 'Wing-Provider', 'Wing-Striker', 'FW-Provider', 'FW-Striker'][$i] }}</h2>
+                    <div class="form-group">
+                        <label for="chartType{{ $i }}">Chart Type:</label>
+                        <select id="chartType{{ $i }}" class="form-control" onchange="updateChartType({{ $i }})">
+                            @foreach($chartTypes as $type)
+                                <option value="{{ $type }}">{{ ucfirst($type) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <canvas id="myChart{{ $i }}"></canvas>
+                </div>
+                @if ($i % 2 == 1 || $i == 11)
+                    </div>
+                @endif
+            @endfor
+        </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         var charts = [];
-        var chartAttributes = [
-            ['xgp_per_90', 'con_per_90', 'int_per_90', 'pas_perc'], // Goalkeeper
-            ['tck_per_90', 'hdrs_w_per_90', 'clr_per_90', 'int_per_90', 'blk_per_90'], // CB-Stopper
-            ['tck_per_90', 'clr_per_90', 'int_per_90', 'blk_per_90', 'pr_passes_per_90'], // CB-BallPlaying
-            ['tck_per_90', 'int_per_90', 'pres_c_per_90', 'op_crs_c_per_90', 'pr_passes_per_90'], // Fullback
-            ['tck_per_90', 'int_per_90', 'pres_c_per_90', 'op_crs_c_per_90', 'drb_per_90'], // Wingback
-            ['tck_per_90', 'int_per_90', 'blk_per_90', 'pres_c_per_90', 'pas_perc'], // MF-Destroyer
-            ['op_kp_per_90', 'pr_passes_per_90', 'xa_per_90', 'drb_per_90', 'pas_perc'], // MF-Creator
-            ['op_kp_per_90', 'xa_per_90', 'drb_per_90', 'pas_perc', 'sht_per_90'], // MF-Attacking
-            ['drb_per_90', 'op_kp_per_90', 'sprints_per_90', 'op_kp_per_90', 'xa_per_90'], // Wing-Provider
-            ['drb_per_90', 'sht_per_90', 'sprints_per_90', 'np_xg_per_90', 'conv_perc'], // Wing-Striker
-            ['hdrs_w_per_90', 'xa_per_90', 'np_xg_per_90', 'sht_per_90', 'conv_perc'], // FW-Provider
-            ['hdrs_w_per_90', 'drb_per_90', 'np_xg_per_90', 'sht_per_90', 'conv_perc'] // FW-Striker
-        ];
+        var chartAttributes = @json($chartAttributes);
 
         @for ($i = 0; $i < 12; $i++)
             var ctx{{ $i }} = document.getElementById('myChart{{ $i }}').getContext('2d');
@@ -88,9 +105,22 @@
                     }]
                 },
                 options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: 20
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    },
                     scales: {
                         y: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            ticks: {
+                                padding: 10
+                            }
                         }
                     }
                 }

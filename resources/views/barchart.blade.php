@@ -21,7 +21,7 @@
                 @endforeach
             </select>
             <button onclick="changePlayers()">Change Players</button>
-        </dropdown>
+       </dropdown>
         <canvas id="myBarChart"></canvas>
     </div>
 

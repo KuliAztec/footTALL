@@ -2,9 +2,11 @@
 <html>
 <head>
     <title>Player Stats</title>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         $(document).ready(function() {
             var table = $('#statsTable').DataTable({
@@ -12,12 +14,12 @@
                     this.api().columns().every(function (index) {
                         if (index > 1) {
                             var column = this;
-                            var minInput = $('<input type="number" placeholder="Min" style="width: 50px; margin-right: 5px;">')
+                            var minInput = $('<input type="number" placeholder="Min" class="form-control form-control-sm" style="width: 70px; margin-right: 5px;">')
                                 .appendTo($(column.footer()).empty())
                                 .on('change', function () {
                                     column.draw();
                                 });
-                            var maxInput = $('<input type="number" placeholder="Max" style="width: 50px;">')
+                            var maxInput = $('<input type="number" placeholder="Max" class="form-control form-control-sm" style="width: 70px;">')
                                 .appendTo($(column.footer()))
                                 .on('change', function () {
                                     column.draw();
@@ -50,11 +52,11 @@
         });
     </script>
 </head>
-<body>
-    <h1>Player Stats</h1>
-    <a href="/">Go to Home</a>
-    <button id="resetFilters">Reset Filters</button>
-    <table id="statsTable" class="display">
+<body class="container">
+    <h1 class="my-4">Player Stats</h1>
+    <a href="/" class="btn btn-primary mb-3">Go to Home</a>
+    <button id="resetFilters" class="btn btn-secondary mb-3">Reset Filters</button>
+    <table id="statsTable" class="display table table-striped table-bordered">
         <thead>
             <tr>
                 <th>ID</th>

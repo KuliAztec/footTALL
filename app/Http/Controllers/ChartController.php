@@ -66,7 +66,29 @@ class ChartController extends Controller
             ];
             return $player;
         });
-        return view('chart', ['players' => $players]);
+
+        $chartAttributes = [
+            ['xgp_per_90', 'con_per_90', 'int_per_90', 'pas_perc'], // Goalkeeper
+            ['tck_per_90', 'hdrs_w_per_90', 'clr_per_90', 'int_per_90', 'blk_per_90'], // CB-Stopper
+            ['tck_per_90', 'clr_per_90', 'int_per_90', 'blk_per_90', 'pr_passes_per_90'], // CB-BallPlaying
+            ['tck_per_90', 'int_per_90', 'pres_c_per_90', 'op_crs_c_per_90', 'pr_passes_per_90'], // Fullback
+            ['tck_per_90', 'int_per_90', 'pres_c_per_90', 'op_crs_c_per_90', 'drb_per_90'], // Wingback
+            ['tck_per_90', 'int_per_90', 'blk_per_90', 'pres_c_per_90', 'pas_perc'], // MF-Destroyer
+            ['op_kp_per_90', 'pr_passes_per_90', 'xa_per_90', 'drb_per_90', 'pas_perc'], // MF-Creator
+            ['op_kp_per_90', 'xa_per_90', 'drb_per_90', 'pas_perc', 'sht_per_90'], // MF-Attacking
+            ['drb_per_90', 'op_kp_per_90', 'sprints_per_90', 'op_kp_per_90', 'xa_per_90'], // Wing-Provider
+            ['drb_per_90', 'sht_per_90', 'sprints_per_90', 'np_xg_per_90', 'conv_perc'], // Wing-Striker
+            ['hdrs_w_per_90', 'xa_per_90', 'np_xg_per_90', 'sht_per_90', 'conv_perc'], // FW-Provider
+            ['hdrs_w_per_90', 'drb_per_90', 'np_xg_per_90', 'sht_per_90', 'conv_perc'] // FW-Striker
+        ];
+
+        $chartTypes = ['radar', 'bar', 'line'];
+
+        return view('chart', [
+            'players' => $players,
+            'chartAttributes' => $chartAttributes,
+            'chartTypes' => $chartTypes
+        ]);
     }
 
     public function getPlayerStats($playerId)
